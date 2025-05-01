@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import "./App.css";
 
 function App() {
   const [data, setData] = useState([]);
@@ -8,7 +7,7 @@ function App() {
   const [loading, setLoading] = useState(false);
 
   const options = ["Local", "API"];
-  
+
   const dataObj = [
     { name: "Arjit 1", email: "arjit@gmail.com", address: "Jammu" },
     { name: "Arjit 2", email: "arjit2@gmail.com", address: "Kashmir" },
@@ -45,6 +44,23 @@ function App() {
   };
   const handleSourceChange = (e) => {
     setDataSource(e.target.value);
+  };
+
+  const [count, setCount] = useState(0);
+  const [todo, setTodo] = useState([]);
+  const [text, setText] = useState("");
+
+  const addTodo = () => {
+    if (text) {
+      setTodo([...todo, text]);
+      setText("");
+    }
+  };
+
+  const removeTodo = (index) => {
+    const newTodo = [...todo];
+    newTodo.splice(index, 1);
+    setTodo(newTodo);
   };
 
   console.log("data:", data);
@@ -99,9 +115,34 @@ function App() {
           </tbody>
         </table>
       )}
+
+      {/* counter */}
+
+      <h1> Counter </h1>
+      <button onClick={() => setCount(count + 1)}>Increase</button>
+      <button onClick={() => setCount(count - 1)}>Decrease</button>
+      <button onClick={() => setCount(0)}>Reset</button>
+      <p>{count}</p>
+
+      {/* Todo List */}
+      <h1>Todo List</h1>
+      <input
+        type="text"
+        value={text}
+        onChange={(e) => setText(e.target.value)}
+      />
+      <button onClick={addTodo}>Add</button>
+
+      <ol>
+        {todo.map((todo, index) => (
+          <li key={index}>
+            {todo}
+            <button onClick={() => removeTodo(index)}>Remove</button>
+          </li>
+        ))}
+      </ol>
     </div>
   );
 }
 
 export default App;
-
